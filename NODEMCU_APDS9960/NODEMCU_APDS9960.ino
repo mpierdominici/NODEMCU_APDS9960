@@ -6,11 +6,11 @@
 
 #define SEC_TO_MILISEC(x) ((x)*1000) 
 
-
+//https://github.com/jonn26/SparkFun_APDS-9960_Sensor_Arduino_Library descargar de aca la librearia que anda
 
 // Pins en wemos D1 mini
 #define APDS9960_INT      D6  //AKA GPIO12 -- Interrupt pin
-#define APDS9960_SDA    D3  //AKA GPIO0
+#define APDS9960_SDA    D2  //AKA GPIO0
 #define APDS9960_SCL     D1  //AKA GPIO5
 
 
