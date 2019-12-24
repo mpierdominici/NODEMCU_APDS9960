@@ -13,6 +13,8 @@
 #define APDS9960_SDA    D2  //AKA GPIO0
 #define APDS9960_SCL     D1  //AKA GPIO5
 
+#define PIN_CH1 D5
+#define PIN_CH2 D7
 
 // Global Variables
 SparkFun_APDS9960 apds = SparkFun_APDS9960();
@@ -88,10 +90,26 @@ void callback(char* topic, byte* payload, unsigned int length)
   debug_message(", payload : ",false);
   debug_message((char *)payload,true);
 
-  if(!strcmp(topic,"timer/stop"))
+  if(!strcmp(topic,"bed/ch1/on"))
   {
-   
-    debug_message("LLEGO MENSAJE PARA DETENER LA BOMBA",true);
+    digitalWrite(PIN_CH1,HIGH);
+    Serial.println("ch1h");   
+ 
+  }else if(!strcmp(topic,"bed/ch1/off"))
+  {
+    digitalWrite(PIN_CH1,LOW);
+    Serial.println("ch1L");   
+ 
+  }else if(!strcmp(topic,"bed/ch2/on"))
+  {
+    Serial.println("ch2h");
+    digitalWrite(PIN_CH2,HIGH);   
+ 
+  }else if(!strcmp(topic,"bed/ch2/off"))
+  {
+    Serial.println("ch2l");
+    digitalWrite(PIN_CH2,LOW);   
+ 
   }
  
 }
@@ -101,7 +119,8 @@ void setup() {
 
   setUpWifi(ssid,pass);
   setUpMqtt();
-
+  pinMode(PIN_CH1,OUTPUT);
+  pinMode(PIN_CH2,OUTPUT);
   //Start I2C with pins defined above
   Wire.begin(APDS9960_SDA,APDS9960_SCL);
 
@@ -140,10 +159,10 @@ void reconnect()
   
   
             // ...suscrivirse a topicos
-            //mqtt_client.subscribe("timer/setTime");
-           // mqtt_client.subscribe("timer/start");
-           // mqtt_client.subscribe("timer/stop");
-           // mqtt_client.subscribe("timbre/on");
+            mqtt_client.subscribe("bed/ch1/on");
+           mqtt_client.subscribe("bed/ch1/off");
+            mqtt_client.subscribe("bed/ch2/on");
+           mqtt_client.subscribe("bed/ch2/off");
            // mqtt_client.subscribe("timbre/off");
             
 
